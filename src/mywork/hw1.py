@@ -1,6 +1,6 @@
 """
 Eric Weng (qgt7zm)
-CS 2120 — HW 1
+CS 2120 - HW 1
 Thur 9/1/22
 
 5-Queens Problem

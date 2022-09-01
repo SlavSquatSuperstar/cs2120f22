@@ -32,6 +32,12 @@ s.check()
 m = s.model()
 print(m)
 
+# Puzzle
+d = Int('dogs')
+c = Int('cats')
+m = Int('mice')
+solve(d + c + m == 100, 1500*d + 100*c + 25*m == 10000, d >= 1, c >= 1, m >= 1)
+
 # Class example
 s = Solver()
 
