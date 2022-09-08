@@ -1,3 +1,8 @@
+"""
+Z3 Practice Exercise 4
+Tue 9/6/22
+"""
+
 from z3 import *
 
 # In the code Guilty is True and

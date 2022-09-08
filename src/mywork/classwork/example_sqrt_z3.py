@@ -15,6 +15,16 @@ def sqrt(n) :
         return s.model()[sqrtn]
     return -1
 
+# deterministic sqrt function
+def pos_sqrt(n) :
+    sqrtn = Real('sqrtn')
+    s = Solver()
+    s.add(sqrtn * sqrtn == n)
+    s.add(sqrtn >= 0)
+    if (s.check() == sat) :
+        return s.model()[sqrtn]
+    return -1
+
 def neg_sqrt(n) :
     sqrtn = Real('sqrtn')
     s = Solver()
