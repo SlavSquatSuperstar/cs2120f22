@@ -1,10 +1,39 @@
-variables X Y Z : Prop
+/- *** Inference Rules ***
+2. X, Y ⊢ X ∧ Y              -- and introduction
+3. X ∧ Y ⊢ X                 -- and elimination left
+4. X ∧ Y ⊢ Y                 -- and elimination right
+5. ¬¬X ⊢ X                   -- negation elimination 
+6. ¬(X ∧ ¬X)                 -- no contradiction
+7. X ⊢ X ∨ Y                 -- or introduction left
+8. Y ⊢ X ∨ Y                 -- or introduction right
+10. X → Y, Y → X ⊢ X ↔ Y      -- iff introduction
+11. X ↔ Y ⊢ X → Y            -- iff elimination left
+12. X ↔ Y ⊢ Y → X            -- iff elimination right
+13. X ∨ Y, X → Z, Y → Z ⊢ Z  -- or elimination
+15. X → Y, X ⊢ Y             -- arrow elimination
+16. X → Y, Y → Z ⊢ X → Z     -- transitivity of → 
+18. X → Y ⊢ ¬Y → ¬X          -- contrapositive
+19. ¬(X ∨ Y) ↔ ¬X ∧ ¬Y       -- DeMorgan #1 (¬ distributes over ∨)
+20. ¬(X ∧ Y) ↔ ¬X ∨ ¬Y       -- Demorgan #2 (¬ distributes over ∧)
+-/
+
+/- *** Logical Fallacies ***
+1. X ∨ Y, X ⊢ ¬Y             -- affirming the disjunct (invalid)
+9. X → Y, ¬X ⊢ ¬ Y           -- denying the antecedent (invalid)
+14. X → Y, Y ⊢ X             -- affirming the conclusion (invalid)
+17. X → Y ⊢ Y → X            -- converse (invalid)
+-/
+
+
+
+variables X Y Z : Prop -- Shorthand for declaring variables
+-- We can quantify over propositions in HOCL (adds implict ∀)
 
 /- *** And (∧) Rules *** -/
 
-def and_introduction  : Prop  := ∀ (X Y), X → Y → (X ∧ Y)
-def and_elim_left     : Prop  := ∀ (X Y), X ∧ Y → X  
-def and_elim_right    : Prop  := ∀ (X Y), X ∧ Y → Y  
+def and_introduction  : Prop  := X → Y → (X ∧ Y)
+def and_elim_left     : Prop  := X ∧ Y → X  
+def and_elim_right    : Prop  := X ∧ Y → Y  
 
 /- *** Or (∨) Rules *** -/
 
@@ -26,15 +55,22 @@ def implies_forall_equiv    := (∀ (x : X), Y) ↔ (X → Y)
 def implies_elim            := (X → Y)        → X   → Y
 def forall_elim             := (∀ (x : X), Y) → X   → Y
 
--- To prove for all x, y is true, assume an arbitrary x and prove x → y
--- To prove x → y, assume x is true, then in that context show y is true
+-- To prove for all X, Y is true, assume an arbitrary X and prove X → Y
+-- To prove X → Y, assume X is true, then in that context show Y is true
+-- In HOCL, X → Y is a shorthand for ∀ (x: X) → Y
 
 /- *** True and False Rules *** -/
-theorem true_is_true : true := true.intro
-/- theorem proof_of_false : false := _ -/
--- no cases to consider
+
+theorem true_intro : true := true.intro -- Not very useful
+-- No true elimination rule
+
+-- theorem false_intro : false := _
+-- No false introduction: unprovable because false is not true (no cases to consider)
 
 def false_elim       := ¬X → Y
+
+-- False elimination: if false is true, then anything follows
+-- If we derive a contradiction (inconsistent assumption), then anything is true
 
 /- Implication Outcomes -/
 
@@ -47,15 +83,10 @@ def p6 : Prop := false → 0 = 0            -- provable with reflexive property
 def p7 : Prop := ∀ (P : Prop), true → P   -- not possible because proof of true is useless
 def p8 : Prop := ∀ (P : Prop), false → P  -- provable with false elim
 
--- True introduction is not very useful
--- False is unprovable because is not true
--- False elimination: if false is true, then anything follows
--- If we derive a contradiction (inconsistent assumption), then anything is true
-
 /- *** Not (¬) Rules *** -/
 
 def neg (X : Prop) := X → false
--- ¬P == P → false
+-- ¬P ↔ P → false
 -- If not P is true, then P has no proofs
 -- There are no proofs of false, so we have no proofs of P
 -- If there was a proof of P, then false would have a proof (contradiction)
