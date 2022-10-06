@@ -59,6 +59,8 @@ def forall_elim             := (∀ (x : X), Y) → X   → Y
 -- To prove X → Y, assume X is true, then in that context show Y is true
 -- In HOCL, X → Y is a shorthand for ∀ (x: X) → Y
 
+-- X → Y → Z in HOCL is equivalent to X ∧ Y → Z in FOPL
+
 /- *** True and False Rules *** -/
 
 theorem true_intro : true := true.intro -- Not very useful
