@@ -1,7 +1,7 @@
 /-
 Eric Weng (qgt7zm)
 CS 2120 Homework 3
-Mon 10/3/22
+Thur 10/6/22
 Predicate Logic
 
 PURPOSE: The purpose of this homework is to help you understand
