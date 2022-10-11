@@ -1,3 +1,4 @@
+
 /- *** Inference Rules ***
 2. X, Y ⊢ X ∧ Y              -- and introduction
 3. X ∧ Y ⊢ X                 -- and elimination left
@@ -33,6 +34,12 @@ Introduction rules produce a proof
 Elimination rules consume a proof
 -/
 
+/- *** Laws of Reasoning *** -/
+def excluded_middle (P: Prop) : Prop := P ∨ ¬P
+-- proof that p is true or false even if we don't have a proof 
+-- only 2 cases to consider
+-- works in both CL and PL
+
 /- *** And (∧) Rules *** -/
 
 def and_introduction  : Prop  := X → Y → (X ∧ Y)
@@ -60,9 +67,14 @@ def implies_elim            := (X → Y)        → X   → Y
 def forall_elim             := (∀ (x : X), Y) → X   → Y
 
 -- For-all Introduction
--- To prove for all X, Y is true, assume an arbitrary X and prove X → Y
+-- To prove for all X, Y is true, 1. Assume an arbitrary X and 2. prove X → Y
 -- To prove X → Y, assume X is true, then in that context show Y is true
 -- In HOCL, X → Y is a shorthand for ∀ (x: X) → Y
+
+-- Arrow Elimination
+-- If f: S → N and we want to prove N, we need a proof of S, s: S
+-- In other words, (f s): N applies the proof f to s to prove N
+-- Just function application
 
 -- X → Y → Z in HOCL is equivalent to X ∧ Y → Z in FOPL
 
@@ -92,13 +104,22 @@ def p8 : Prop := ∀ (P : Prop), false → P  -- provable with false elim
 
 /- *** Not (¬) Rules *** -/
 
-def neg_intro (X : Prop) := X → false
--- Proof by negation (not introduction)
--- (P → false) ↔ ¬P
--- To prove something is false, assume it is true
--- and show it leads to an impossibility
+def not_intro (X : Prop) := X → false
+-- Proof by Negation (not introduction)
+-- (P → false) → ¬P
+-- To prove something is false, 1. Assume it is true,
+-- and 2. Show it leads to an impossibility
 
 -- If not P is true, then P has no proofs
 -- There are no proofs of false, so we have no proofs of P
 -- If there was a proof of P, then false would have a proof (contradiction)
+
+-- Not to be confused with Proof by Contradiction
+-- (¬P → false) →  ¬(¬P) → P
+-- To prove P is true, 1. Assume P is false,
+-- and 2. Show it leads to an impossibility,
+-- usually by applying P to a proof requiring not P
+
 def not_elim := ¬¬X → X
+-- Not possible in constructive logic
+-- Works if excluded is middle
