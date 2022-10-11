@@ -75,6 +75,7 @@ B: Why? For all-arrow equivalence
 If Z is an arbitrary zebra and Z has stripes, then we can generalize and say
 all zebras have stripes
 (Z: Zebra), striped Z ↔ ∀ (z: Zebra) → striped z
+**(For-all introduction is correct)**
 
 
 #1G. If whenever the wind blows, the leaves move, and 
@@ -84,6 +85,7 @@ A. yes/no: No
 
 B. Why? This is a converse logical fallacy
 ¬(wind → moving leaves ⊢ moving leaves → wind)
+**(Affirming the conclusion is correct)**
 
 If the leaves are moving, we cannot deduce the wind is blowing
 because there may be other factors causing the leaves to move
@@ -118,8 +120,8 @@ logic: X ∨ ¬Y.
 the variables to values that makes the expressions true).
 
 Yes. If X is true and Y is false, then true ∨ ¬false = true ∨ true = true
+**(Y could be anything)**
 
-`
 #2B: Is it valid? Explain your answer. 
 
 No. If X is false and Y is true, then false ∨ ¬ true = false ∨ false = false
@@ -159,7 +161,7 @@ then m - n is greater than 0.
 
 -- B
 
-#check ∃ (n : ℕ), ∀ (m : nat), m >= n
+#check ∃ (n : ℕ), ∀ (m : ℕ), m >= n
 
 /-
 Answer: There exists a natural number n, for which all
@@ -222,4 +224,8 @@ variable contagion :
 Answer:
 If animal a1 has a virus and has been in close contact with animal a2,
 and a2 has the virus, then the virus is contagious.
+
+**(Correct answer:)**
+Contagion is a proof: if animal a1 has a virus and a2 comes into
+touch with animal a2, then a2 will catch the virus.
 -/

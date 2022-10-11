@@ -25,9 +25,13 @@
 -/
 
 
-
 variables X Y Z : Prop -- Shorthand for declaring variables
 -- We can quantify over propositions in HOCL (adds implict ∀)
+
+/- Introduction vs Elimination
+Introduction rules produce a proof
+Elimination rules consume a proof
+-/
 
 /- *** And (∧) Rules *** -/
 
@@ -51,10 +55,11 @@ def iff_elim_right          := X ↔ Y → (Y → X)
 
 /- *** For-all (∀) and Implies (→) Rules *** -/
 
-def implies_forall_equiv    := (∀ (x : X), Y) ↔ (X → Y)
+def implies_forall_equiv    := (∀ (x : X), Y) ↔ (X → Y) -- for-all introduction
 def implies_elim            := (X → Y)        → X   → Y
 def forall_elim             := (∀ (x : X), Y) → X   → Y
 
+-- For-all Introduction
 -- To prove for all X, Y is true, assume an arbitrary X and prove X → Y
 -- To prove X → Y, assume X is true, then in that context show Y is true
 -- In HOCL, X → Y is a shorthand for ∀ (x: X) → Y
@@ -87,9 +92,13 @@ def p8 : Prop := ∀ (P : Prop), false → P  -- provable with false elim
 
 /- *** Not (¬) Rules *** -/
 
-def neg (X : Prop) := X → false
--- ¬P ↔ P → false
+def neg_intro (X : Prop) := X → false
+-- Proof by negation (not introduction)
+-- (P → false) ↔ ¬P
+-- To prove something is false, assume it is true
+-- and show it leads to an impossibility
+
 -- If not P is true, then P has no proofs
 -- There are no proofs of false, so we have no proofs of P
 -- If there was a proof of P, then false would have a proof (contradiction)
-def neg_elim          := ¬¬X → X
+def not_elim := ¬¬X → X
