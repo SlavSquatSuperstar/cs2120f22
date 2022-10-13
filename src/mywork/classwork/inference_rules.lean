@@ -105,21 +105,28 @@ def p8 : Prop := ∀ (P : Prop), false → P  -- provable with false elim
 /- *** Not (¬) Rules *** -/
 
 def not_intro (X : Prop) := X → false
--- Proof by Negation (not introduction)
--- (P → false) → ¬P
--- To prove something is false, 1. Assume it is true,
--- and 2. Show it leads to an impossibility
+
+/- Two proofs:
+
+A) Proof by Negation (not introduction)
+(P → false) → ¬P
+To prove ¬P (P is false):
+- 1. Assume P is true,
+- 2. Show it leads to an impossibility
+- 3. Conclude ¬P
 
 -- If not P is true, then P has no proofs
 -- There are no proofs of false, so we have no proofs of P
 -- If there was a proof of P, then false would have a proof (contradiction)
 
--- Not to be confused with Proof by Contradiction
--- (¬P → false) →  ¬(¬P) → P
--- To prove P is true, 1. Assume P is false,
--- and 2. Show it leads to an impossibility,
--- usually by applying P to a proof requiring not P
+B) Proof by Contradiction
+(¬P → false) →  ¬(¬P) → P
+To prove P (P is true):
+- 1. Assume ¬P (P is false),
+- 2. Show it leads to an impossibility, usually by applying P to a proof requiring ¬P
+- 3. Conclude ¬(¬P) and use negation elimination/excluded middle to equate it to P
+-/
 
 def not_elim := ¬¬X → X
 -- Not possible in constructive logic
--- Works if excluded is middle
+-- Works if excluded middle is true
