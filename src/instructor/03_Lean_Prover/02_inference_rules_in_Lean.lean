@@ -19,7 +19,7 @@
 #check @or.intro_left   -- ∀ {a : Prop} (b : Prop), a → a ∨ b
 #check @or.intro_right  -- ∀ (a : Prop) {b : Prop}, b → a ∨ b
 #check @or.elim         -- ∀ {a b c : Prop}, a ∨ b → (a → c) → (b → c) → c
-
+ 
 /-
 Use inl or inr when Lean can infer the other disjunct,
 otherwise use intro_left or intro_right, where you have
