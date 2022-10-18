@@ -1,3 +1,8 @@
+/-
+Lean Syntax
+Tue 10/13/22
+-/
+
 -- declare and assign variables
 def x := 1
 #eval x
