@@ -1,5 +1,5 @@
 /-
-Proving Demorgan Rules
+Proving DeMorgan's Laws
 Tue 10/18/22
 -/
 
@@ -52,4 +52,40 @@ begin
     apply (na (and.elim_left ab)),
     apply (nb (and.elim_right ab)),
 
+end
+
+def dm2 : Prop := ∀ (A B : Prop), ¬(A ∨ B) ↔ ¬A ∧ ¬ B
+
+example : dm2 :=
+begin
+  unfold dm2,
+  assume A B, -- for-all intro
+  apply iff.intro,
+
+  -- first implication
+  assume n_ab : ¬(A ∨ B),
+
+    cases (classical.em A) with a na,
+      -- A is true, B is anything
+      let ax := or.inl a,
+      contradiction,
+      
+      -- ¬A
+      cases (classical.em B) with b nb,
+        -- B is true
+        let xb := or.intro_right A b,
+        contradiction,
+
+        -- ¬A ∧ ¬B
+        exact and.intro na nb,
+
+  -- second implication
+  assume na_nb : ¬A ∧ ¬B,
+  let na : ¬A := and.elim_left na_nb,
+  let nb : ¬B := and.elim_right na_nb,
+
+  assume ab : A ∨ B, -- proof by negation
+  cases ab with a b,
+  exact (na a),
+  exact (nb b),
 end
