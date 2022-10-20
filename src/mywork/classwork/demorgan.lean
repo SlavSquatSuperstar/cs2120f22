@@ -49,8 +49,8 @@ begin
     -- exact false.elim f,
 
     -- this is shorthand
-    apply (na (and.elim_left ab)),
-    apply (nb (and.elim_right ab)),
+    exact (na (and.elim_left ab)),
+    exact (nb (and.elim_right ab)),
 
 end
 

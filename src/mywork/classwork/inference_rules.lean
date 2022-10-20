@@ -25,6 +25,26 @@
 17. X → Y ⊢ Y → X            -- converse (invalid)
 -/
 
+/- *** Propositional Laws of Reasoning ***
+1. Identity: ∀ x, x = x (All objects are equal to themselves)
+2. Non-Contradiction: ∀ x, ¬(x ∧ ¬x) (Propositions must either be true or not true)
+3. Excluded Middle: ∀ x, x ∨ ¬x (Propositions are either true or false)
+-/
+
+/- *** Predicate vs Propositional Logic ***
+Propositional Logic:
+- Has no data types; e verything is a proposition
+- Cannot quantify over anything (every, some, no)
+- Cannot parameterize propositions
+Predicate Logic:
+- Cannot use truth tables to check validity
+- Requires deductive reasoning for proofs and truth judgments
+- Only objects as types
+- Can only quantify over sets of objects
+Constructive Logic:
+- Cannot use excluded middle
+-/
+
 
 variables X Y Z : Prop -- Shorthand for declaring variables
 -- We can quantify over propositions in HOCL (adds implict ∀)
