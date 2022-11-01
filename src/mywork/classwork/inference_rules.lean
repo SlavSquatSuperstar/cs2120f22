@@ -150,3 +150,12 @@ To prove P (P is true):
 def not_elim := ¬¬X → X
 -- Not possible in constructive logic
 -- Works if excluded middle is true
+
+/- *** Exists (∃) Rules *** -/
+
+def exists_intro := ∀ (P : X → Prop) (w : X), P w → (∃ (x : X), P x) 
+def exists_elim := ∀ (P : X → Prop), (∃ (x : X), P x) → (∀ (x : X), P x → Y) → Y
+-- 1. There exists and x with property P
+-- 2. Need an x with property P for Y to be true
+-- 3. Eliminate X with P to get Px
+-- 4. Y is true
