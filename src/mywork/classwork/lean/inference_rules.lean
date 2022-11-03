@@ -154,8 +154,11 @@ def not_elim := ¬¬X → X
 /- *** Exists (∃) Rules *** -/
 
 def exists_intro := ∀ (P : X → Prop) (w : X), P w → (∃ (x : X), P x) 
+-- To prove there exists an X with property P,
+-- Supply a witness, w : X, and a proof of (P w)
+
 def exists_elim := ∀ (P : X → Prop), (∃ (x : X), P x) → (∀ (x : X), P x → Y) → Y
--- 1. There exists and x with property P
--- 2. Need an x with property P for Y to be true
--- 3. Eliminate X with P to get Px
--- 4. Y is true
+-- If there exists an X with property P,
+-- We can deduce a proof x : X and of (P x)
+-- The exact identity of the witness is unknown, only its existence
+-- And if (P x) proves Y, we can do so

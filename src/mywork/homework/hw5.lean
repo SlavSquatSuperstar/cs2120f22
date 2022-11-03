@@ -26,18 +26,28 @@ State and prove the proposition that there's some
 natural number whose square is 144.
 -/
 
-example : _ := _
+example : ∃ (n : ℕ), n * n = 144 :=
+begin
+  let n : ℕ := 12,        -- witness
+  apply exists.intro n,
+  exact rfl,              -- proof witness satistfies proposition
+end
 
 
 /- #1B.
 State and prove the proposition that there is 
 some string, s, such that s ++ "!" is the string, 
-"I love logic!." Note: In Lean, ++ is notation
+"I love logic!". Note: In Lean, ++ is notation
 for string.append, the function for gluing two
 strings together into one.
 -/
 
-example : _ := _
+example : ∃ (s : string), s ++ "!" = "I love logic!" :=
+begin
+  let s : string := "I love logic",   -- w : X
+  apply exists.intro s,
+  exact rfl,                            -- (P x)
+end
 
 /- #1C.
 
@@ -48,8 +58,13 @@ takes just one witness as a time, so you will
 have to apply it more than once.
 -/
 
-example : _ :=
+example : ∃ (x y z : ℕ),
+  x*x + y*y = z*z :=
 begin
+  apply exists.intro 3,
+  apply exists.intro 4,
+  apply exists.intro 5,   -- three witnesses this time
+  exact rfl,
 end
 
 /- #1D
@@ -58,17 +73,24 @@ three natural number arguments, x, y, and z,
 yielding the proposition that x*x + y*y = z*z.
 -/
 
-def pythag_triple (x y z : ℕ) := _
+def pythag_triple (x y z : ℕ) := x*x + y*y = z*z
+
+#reduce pythag_triple 3 4 5
+#reduce pythag_triple 1 2 3
 
 /- #1E
-State the propositionthat there exist x, y, z, 
+State the proposition that there exist x, y, z, 
 natural numbers, that satisfy the pythag_triple, 
 predicate, then prove it. (Use "example : ...")
 -/
 
-example : _  :=
+example : ∃ (x y z : ℕ),
+  pythag_triple x y z :=
 begin
-_
+  apply exists.intro 3,
+  apply exists.intro 4,
+  apply exists.intro 5,
+  exact rfl,
 end
 
 /- #2A
@@ -81,7 +103,9 @@ n to be a multiple of m? There has to be some
 other number involved, right?
 -/
 
-def multiple_of (n m : ℕ) := ∃ (k), n = m * k  
+def multiple_of (n m : ℕ) := ∃ (k : ℕ), n = m * k  
+
+#reduce multiple_of 10 5
 
 /- #2B
 
@@ -114,7 +138,7 @@ do polynomials and many other kinds of "math"
 objects as well.
 
 The ring tactic is used to put any expression 
-involing any rin" into a "normal" form. What 
+involing any "ring" into a "normal" form. What 
 "normal" means in this context is that if you 
 put two mathematically equivalent but different 
 expressions into normal form, then you get the 
@@ -141,7 +165,7 @@ example (n m k : ℕ) : n + (m + k) = (n + k) + m :=
 begin 
 ring 
 end  
--- Enlish proof (it's short!): 
+-- English proof (it's short!): 
 
 /-
 Whoa! It's so easy to prove addition associative? 
@@ -187,9 +211,22 @@ has to be. Also, be sure to use multiple_of in
 formally stating the proposition to be proved.
 -/
 
-example : _ :=
+/- "For any n, if n multiple of 6, then n multiple of 3"
+
+If n is a multiple of 6, there must be some k where n = k * 6
+If there is some number l, where n = l * 3, then n is a multiple of 3
+-- If n = k * 6, then n = 2k * 3
+-/
+example : ∀ (n : ℕ), (multiple_of n 6) → ∃ (l : ℕ), (n = l * 3) → (multiple_of n 3) :=
 begin
-_
+  assume n    : ℕ,
+  assume nmult6  : multiple_of n 6,
+  unfold multiple_of at nmult6,
+  cases nmult6 with k nmultk, -- split with exists elim
+  let l       : ℕ := k * 2,
+  apply exists.intro l,
+  let p := multiple_of n l,
+  exact rfl,
 end 
 
 

@@ -42,7 +42,7 @@ def set135 := { n : ℕ | n = 1 ∨ n = 3 ∨ n = 5 }
 #reduce 1 ∈ set135
 #reduce 2 ∈ set135
 
-example : 5 ∈ set135 :=
+example : 5 ∈ set135 := -- same as (set135 5)
 begin
 show 5 = 1 ∨ 5 = 3 ∨ 5 = 5,
 right, -- apply or intro
