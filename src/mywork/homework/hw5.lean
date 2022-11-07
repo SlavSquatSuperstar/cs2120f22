@@ -35,6 +35,7 @@ end
 
 
 /- #1B.
+
 State and prove the proposition that there is 
 some string, s, such that s ++ "!" is the string, 
 "I love logic!". Note: In Lean, ++ is notation
@@ -43,11 +44,13 @@ strings together into one.
 -/
 
 example : ∃ (s : string), s ++ "!" = "I love logic!" :=
-begin
-  let s : string := "I love logic",   -- w : X
-  apply exists.intro s,
-  exact rfl,                            -- (P x)
-end
+exists.intro "I love logic" rfl
+-- same as this
+-- begin
+--   apply exists.intro "I love logic",
+--   exact rfl,
+-- end
+
 
 /- #1C.
 
@@ -67,7 +70,9 @@ begin
   exact rfl,
 end
 
+
 /- #1D
+
 Define predicate called pythag_triple taking
 three natural number arguments, x, y, and z,
 yielding the proposition that x*x + y*y = z*z.
@@ -78,7 +83,9 @@ def pythag_triple (x y z : ℕ) := x*x + y*y = z*z
 #reduce pythag_triple 3 4 5
 #reduce pythag_triple 1 2 3
 
+
 /- #1E
+
 State the proposition that there exist x, y, z, 
 natural numbers, that satisfy the pythag_triple, 
 predicate, then prove it. (Use "example : ...")
@@ -93,6 +100,7 @@ begin
   exact rfl,
 end
 
+
 /- #2A
 
 Define a predicate, (multiple_of n m), where
@@ -103,9 +111,10 @@ n to be a multiple of m? There has to be some
 other number involved, right?
 -/
 
-def multiple_of (n m : ℕ) := ∃ (k : ℕ), n = m * k  
+def multiple_of (n m : ℕ) := ∃ (k : ℕ), n = m * k
 
 #reduce multiple_of 10 5
+
 
 /- #2B
 
@@ -113,74 +122,8 @@ Using the predicate multiple_of, state and
 prove the proposition that every natural number 
 that is a multiple of 6 is also a multiple of 3. 
 
-Hint: you can use "unfold multiple_of at h,"
-to expand the definition of multiple_of in the
-hypothesis, h (assuming you call it that).
+(Ring explanation abridged for the sake of brevity)
 
-Hint: Put the argument you will give to exists
-intro in parentheses (needed for correct syntax).
-
-Hint: You might end up with n = 3 * (2 * w) 
-as a goal. The "ring" tactic in Lean will 
-simplify this expression to n = 6 * w. 
-
-Before you do the work, let's talk a little
-more about the "ring" tactic. First, where does
-the name come from? Second, what does it do?
-
-A "ring" in college-level algebra (and beyond)
-is any set of values (such as natural numbers) 
-with + and * operations that satisfy the usual 
-rules of arithmetic (such as the distributive
-laws, the associativity of + and *, etc). Not
-only the natural numbers form a ring, but so
-do polynomials and many other kinds of "math"
-objects as well.
-
-The ring tactic is used to put any expression 
-involing any "ring" into a "normal" form. What 
-"normal" means in this context is that if you 
-put two mathematically equivalent but different 
-expressions into normal form, then you get the 
-same "normalized" expression in both cases,
-making it easy to test them for equality. 
-
-So, in particular, if you want to know whether 
-a+(b+c)=(a+b)+c, put both expresions in normal
-form and see if they are equal (which again they 
-are if + is addition in any "ring").
-
-A good English translation of the use of the 
-ring tactic is "by basic algebra."
--/
-
-
-/-
-Here's an example. Is ℕ addition associative? 
-You know it is. Prove it formally and then fill
-in the English language proof below. 
--/
-
-example (n m k : ℕ) : n + (m + k) = (n + k) + m := 
-begin 
-ring 
-end  
--- English proof (it's short!): 
-
-/-
-Whoa! It's so easy to prove addition associative? 
-Yep. Thankfully someone else wrote this beautiful 
-tactic so you don't have to do the algebra yourself.
--/
-
-/-
-As a small aside on Lean syntax, if a tactic script 
-is just one tactic long, you can use "by <tactic>" 
-instead wrapping the tactic in a begin-end block.
--/
-example (n m k : ℕ) : n + (m + k) = (n + k) + m := by ring
-
-/-
 Ok, with that background in place, let's 
 return to the problem we were discussing. 
 Is it true that if any natural number is
@@ -194,7 +137,7 @@ be true or not. Try to prove it "mentally"
 to yourself first. 
 
 The key question here is, what does it even 
-mean for a  number, n, to be a multiple of 6. 
+mean for a number, n, to be a multiple of 6. 
 Well, n is a multiple of 6 if there's some 
 number, say k, such that n = k * 6, right? 
 
@@ -211,22 +154,20 @@ has to be. Also, be sure to use multiple_of in
 formally stating the proposition to be proved.
 -/
 
-/- "For any n, if n multiple of 6, then n multiple of 3"
-
-If n is a multiple of 6, there must be some k where n = k * 6
-If there is some number l, where n = l * 3, then n is a multiple of 3
--- If n = k * 6, then n = 2k * 3
--/
-example : ∀ (n : ℕ), (multiple_of n 6) → ∃ (l : ℕ), (n = l * 3) → (multiple_of n 3) :=
+-- "For any n, if n multiple of 6, then n multiple of 3"
+example : ∀ (n : ℕ), (multiple_of n 6) → (multiple_of n 3) :=
 begin
-  assume n    : ℕ,
-  assume nmult6  : multiple_of n 6,
-  unfold multiple_of at nmult6,
-  cases nmult6 with k nmultk, -- split with exists elim
-  let l       : ℕ := k * 2,
-  apply exists.intro l,
-  let p := multiple_of n l,
-  exact rfl,
+  assume n : ℕ,
+  assume mult_n6 : multiple_of n 6,
+
+  -- There is a k where n = k * 6
+  unfold multiple_of at mult_n6,
+  cases mult_n6 with k mult_nk, -- use exists elim
+
+  -- Prove that n = 2k * 3
+  apply exists.intro (2 * k), -- supply the witness
+  ring_nf, -- lean prefers ring_nf over ring 
+  assumption, -- we have the conclusion
 end 
 
 
@@ -236,25 +177,29 @@ Is it true that if n is a multiple of h, and h
 is a multiple of k, that n is a multiple of k? 
 Formally state and then prove the proposition.
 
-In writing this proof, you might need to use one
-of the two axioms of equality, via the "rewrite" 
-tactic (abbreviated rw) in Lean. Here's the idea.
-
-If you've already proved/know, and so have in 
-your context a proof of, an equality, such as 
-pf : m = k, and if m appears in your goal, then
-you can replace the m with k by using "rw pf",
-and your goal will mean exactly the same thing.
-The rewrite tactic uses the axiom that states
-that you can replace equals by equals without
-changing the truth values of propositions. 
+(Rewrite explanation abridged)
 -/
 
-example (n h k : ℕ) : _ :=
+-- if multiple_of n h, and multiple_of h k, then multiple_of n k
+example (a b c : ℕ) :
+∀(a b c), (multiple_of a b) ∧ (multiple_of b c) → (multiple_of a c)
+:=
 begin
-_
-end
+assume a b c,
+assume given,
 
+cases given with mult_ab mult_bc, -- and elim
+unfold multiple_of at mult_ab mult_bc,
+
+cases mult_ab with k mult_ak, -- a = k * b
+cases mult_bc with l mult_bl, -- b = l * c
+
+rw mult_ak, -- substitute
+rw mult_bl, 
+-- proof reduced to a = k * l * c
+apply exists.intro (l * k),
+ring, -- multiplication is associative
+end
 
 
 /- *** exists.elimination *** -/
@@ -274,11 +219,19 @@ example
   (Person : Type)
   (KnowsLogic : Person → Prop)
   (isCool : Person → Prop)
+
   (LogicMakesCool : ∀ (p), KnowsLogic p → isCool p)
   (SomeoneKnowsLogic : ∃ (p), KnowsLogic p) :
-  _ :=
+  
+  ∃(p : Person), isCool p :=
 begin
-_
+cases SomeoneKnowsLogic with w knowsLogicW, -- use exists elim
+apply exists.intro w, -- supply witness
+-- prove isCool w
+exact LogicMakesCool w knowsLogicW, -- predicate application
+
+-- same as above
+-- exact exists.intro w (LogicMakesCool w knowsLogicW)
 end
 
 
@@ -291,11 +244,18 @@ someone is not happy then not everyone is happy.
 example 
   (Person : Type)
   (Happy : Person → Prop) :
-  _
+  (∃ (p : Person), ¬Happy p) → ¬(∀ (q : Person), Happy q)
+  -- ∃ (p : Person), ¬(Happy p) → ¬(∀ (q : Person), (Happy q))
   :=
 begin
-  _
+  assume one_unhappy,
+  cases one_unhappy with p unhappy_p,
+  -- proof by negation
+  assume all_happy,
+  let happy_p := all_happy p, -- prove p is happy
+  contradiction,
 end
+
 
 /- #3C
 
@@ -314,13 +274,36 @@ you don't yet have in order to make it
 clear that there's a contradiction in
 your set of assumptions. 
 -/
+
 example 
   (α : Type)
   (P : α → Prop) :
-  _ :=
+  (∀ (a : α), P a) ↔ ¬(∃ (b : α), ¬P b) :=
 begin
-end 
+  split,
+  -- forward
+  assume all_happy,
+  assume one_unhappy,
+  cases one_unhappy with w w_unhappy, -- someone; someone is unhappy
+  let w_happy := all_happy w, -- prove someone is happy
+  contradiction,
 
+  -- reverse
+  assume none_unhappy,
+  assume a, -- someone
+
+  -- prove there is someone happy
+  let a_happy := P a, -- someone is unhappy
+  cases classical.em a_happy with happy unhappy,
+    -- P a
+    assumption,
+
+    -- ¬P a
+    -- there is someone unhappy
+    let f : false := none_unhappy (exists.intro a unhappy),
+    contradiction,
+
+end 
 
 
 /- #3D
@@ -333,16 +316,29 @@ any object of that type has the property
 objects of a certain type as a predicate
 taking objects of that type.
 -/
+
 example 
   (T : Type)
   (P : T → Prop) :
-  _ :=
+  ¬(∃(t : T), P t) → (∀(u : T), ¬P u) :=
+  -- If no t has P, then all t have ¬P
 begin
-_
+  assume none_with_p,
+  assume u : T,
+  -- ¬P u by contradiction
+  assume p_u : P u,
+  cases classical.em (P u) with pu npu,
+    -- P u
+    let f := none_with_p (exists.intro u pu),
+    assumption,
+    -- ¬P u
+    contradiction,
+
 end
 
 
-/- #3D
+/- #3E
+
 Formally state and prove the proposition
 that if there's an object with the property 
 of having property P or property Q then 
@@ -353,8 +349,17 @@ an object with property with property Q.
 example 
   (α : Type)
   (P : α → Prop)
-  (Q : α → Prop): 
-  _ :=
+  (Q : α → Prop) :
+  (∃(a : α), P a ∨ Q a) →
+  (∃(b : α), P b) ∨ (∃(c : α), Q c) :=
 begin
+  assume given,
+  cases given with a pa_qa, -- exists elim
+  cases pa_qa with pa qa, -- or elim
+    -- P a
+    apply or.inl,
+    exact exists.intro a pa,
+    -- Q a
+    apply or.inr,
+    exact exists.intro a qa,
 end
-

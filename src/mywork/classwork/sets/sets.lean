@@ -71,3 +71,44 @@ def allnats := { n : ℕ | true } -- universal set
 
 -- implies: P → Q
 -- subset: S ⊂ T (everything in S is in T)
+
+def negation : bool → bool → Prop
+| tt ff := true
+| ff tt := true
+| _ _ := false
+
+example: ∀ (b1 b2 : bool), negation b1 b2 ↔ bnot b1 = b2 :=
+begin
+assume b1 b2,
+apply iff.intro, -- split
+-- forward implication
+assume neg : negation b1 b2,
+
+  cases b1, -- case analysis on b1 and b2
+  cases b2,
+
+  cases neg, -- ff ff
+  exact rfl, -- ff tt
+
+  cases b2, 
+  exact rfl, -- tt ff
+  cases neg, -- tt tt
+
+-- reverse implication
+assume neq : !b1 = b2,
+
+  cases b1,
+  cases b2,
+
+  cases neq, -- !ff = ff
+  unfold negation, -- !ff = tt
+
+  cases neq, -- !tt = ff
+  unfold negation,
+end 
+
+-- set "multiplication"
+-- A * B = {a1*b1, a1*b2, …, a2*b1…}
+-- There are 2^n subsets of a size size n
+
+def slength (s : string) (l : ℕ) : Prop := s.length = l
