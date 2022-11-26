@@ -112,3 +112,20 @@ end
 -- There are 2^n subsets of a size size n
 
 def slength (s : string) (l : ℕ) : Prop := s.length = l
+
+-- pairs can be defined with propositions that take 2 arguments
+
+def both_even (a b : ℕ) : Prop := (isEven a) ∧ (isEven b)
+#reduce both_even 2 4
+#reduce both_even 3 4
+
+-- equality
+-- introduction rule: eq.refl (rfl)
+-- elimination rule: substitution
+
+-- a set/relation is reflexive if every object is related to itself
+-- symmetric relations work both ways
+
+-- transitive
+-- if a is related to b, and b is related to c,
+-- then a is related to c

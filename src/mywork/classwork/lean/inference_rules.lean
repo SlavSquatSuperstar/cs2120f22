@@ -162,3 +162,15 @@ def exists_elim := ∀ (P : X → Prop), (∃ (x : X), P x) → (∀ (x : X), P 
 -- We can deduce a proof x : X and of (P x)
 -- The exact identity of the witness is unknown, only its existence
 -- And if (P x) proves Y, we can do so
+
+/- *** Equals (=) Rules *** -/
+/- Axioms of Equality
+
+1. Reflexive property (introduction): given a value of any type, that value is equal to itself
+  -- eq.refl takes 1 argument
+  -- rfl takes 0 arguments
+2. Substitutive property (eliminateion): if two objects are equivalent, then any property of the first
+is present on the second
+3. Symmetric: if a = b, then b = a
+3. Transitive: if a = b and b = c, then a = c
+-/
