@@ -1,9 +1,10 @@
 /-
 Eric Weng (qgt7zm)
-CS 2120 Homework 8
+CS 2120 Homework 6
 Tue 11/29/22
 Functions, Sets, and Relations
 -/
+
 import data.set
 
 universes u v
