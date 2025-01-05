@@ -162,3 +162,9 @@ cython_debug/
 bin/*.cs
 
 # src/mywork
+
+# macOS files
+.DS_Store
+
+# VSCode files
+.vscode/
